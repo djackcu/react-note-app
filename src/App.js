@@ -9,7 +9,7 @@ class App extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			selectednoteIndex: null,
+			selectedNoteIndex: null,
 			selectedNote: null,
 			notes: null
 		};
@@ -22,7 +22,7 @@ class App extends React.Component {
 				data['id'] = _doc.id;
 				return data;
 			});
-			console.log(notes);
+			//	console.log(notes);
 			this.setState({ notes: notes });
 		});
 	};
@@ -30,7 +30,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="App">
-				<Sidebar />
+				<Sidebar selectedNoteIndex={this.state.selectedNoteIndex} notes={this.state.notes} />
 				<Editor />
 			</div>
 		);
