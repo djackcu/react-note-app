@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-const firebase = require('firebase/app');
+const firebase = require('firebase');
 require('firebase/firestore');
 
 // Your web app's Firebase configuration
