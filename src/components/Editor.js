@@ -26,7 +26,6 @@ class Editor extends React.Component {
 
 	render() {
 		const { classes } = this.props;
-		console.log(classes);
 		return (
 			<div className={classes.editorContainer}>
 				<ReactQuill value={this.state.text} onChange={this.handleChange} />
