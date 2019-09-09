@@ -6,11 +6,11 @@ import { Divider, Button } from '@material-ui/core';
 import SidebarItems from './SidebarItems';
 
 class Sidebar extends React.Component {
-	constructor() {
+	constructor () {
 		super();
 		this.state = {
-			addingNote: false,
-			title: null
+			addingNote : false,
+			title      : null
 		};
 	}
 
@@ -20,28 +20,60 @@ class Sidebar extends React.Component {
 	};
 
 	updateTitle = (val) => {
-		console.log(val);
+		this.setState({ title: val });
 	};
 
-	render() {
-		const { notes, classes, selectedNoteIndex } = this.props;
-		return (
-			<div className={classes.sidebarContainer}>
-				<Button onClick={this.newNoteBtnClk} className={classes.newNoteBtn}>
-					New Note
-				</Button>
-				{this.state.addingNote ? (
-					<div>
-						<input
-							type="text"
-							className={classes.newNoteInput}
-							placeholder="Enter title"
-							onKeyUp={(e) => this.updateTitle(e.target.value)}
-						/>
-					</div>
-				) : null}
-			</div>
-		);
+	newNote = () => {
+		if (this.state.title) {
+			this.props.newNote(this.state.title);
+			this.setState({ title: null, addingNote: false });
+		}
+	};
+
+	render () {
+		const { notes, classes, noteSelectedIndex, selecteNote, deleteNote } = this.props;
+		if (notes) {
+			return (
+				<div className={classes.sidebarContainer}>
+					<Button onClick={this.newNoteBtnClk} className={classes.newNoteBtn}>
+						{this.state.addingNote ? 'Cancel' : 'New Note'}
+					</Button>
+					{this.state.addingNote ? (
+						<div>
+							<input
+								type="text"
+								className={classes.newNoteInput}
+								placeholder="Enter title"
+								onKeyUp={(e) => {
+									return e.keyCode === 13 ? this.newNote() : this.updateTitle(e.target.value);
+								}}
+							/>
+							<Button className={classes.newNoteSubmitBtn} onClick={this.newNote}>
+								Submit note
+							</Button>
+						</div>
+					) : null}
+					<List>
+						{notes.map((_note, _index) => {
+							return (
+								<div key={_index}>
+									<SidebarItems
+										note={_note}
+										index={_index}
+										noteSelectedIndex={noteSelectedIndex}
+										selecteNote={selecteNote}
+										deleteNote={deleteNote}
+									/>
+									<Divider />
+								</div>
+							);
+						})}
+					</List>
+				</div>
+			);
+		} else {
+			return <div />;
+		}
 	}
 }
 
